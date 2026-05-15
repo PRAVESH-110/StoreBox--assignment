@@ -1,0 +1,10 @@
+@theme {
+  --color-explorer-bg: #1e1e1e;
+  --color-explorer-sidebar: #252526;
+  --color-explorer-border: #3c3c3c;
+  --color-explorer-text: #cccccc;
+  --color-explorer-muted: #858585;
+  --color-explorer-hover: #2a2d2e;
+  --color-explorer-selected: #094771;
+  --color-explorer-accent: #007acc;
+}
