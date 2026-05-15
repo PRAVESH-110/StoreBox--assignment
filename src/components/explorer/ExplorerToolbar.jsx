@@ -13,6 +13,7 @@ export function ExplorerToolbar({ onCreateFile, onCreateFolder }) {
       <div className="flex gap-1">
         <Button
           variant="ghost"
+          className="!flex h-7 w-7 !p-0 items-center justify-center"
           onClick={onCreateFile}
           aria-label="Create file"
           title="Create file"
@@ -21,6 +22,7 @@ export function ExplorerToolbar({ onCreateFile, onCreateFolder }) {
         </Button>
         <Button
           variant="ghost"
+          className="!flex h-7 w-7 !p-0 items-center justify-center"
           onClick={onCreateFolder}
           aria-label="Create folder"
           title="Create folder"

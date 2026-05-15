@@ -43,7 +43,7 @@ const ICONS = {
 /**
  * @param {{ name: keyof typeof ICONS, className?: string, label?: string }} props
  */
-export function Icon({ name, className = 'h-4 w-4', label }) {
+export function Icon({ name, className = 'block h-4 w-4', label }) {
   return (
     <svg
       viewBox="0 0 24 24"

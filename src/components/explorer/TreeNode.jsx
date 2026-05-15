@@ -9,6 +9,9 @@ import { ExplorerTree } from './ExplorerTree.jsx'
 import { useExplorerActions } from './ExplorerActionsContext.jsx'
 
 const INDENT_PX = 16
+/** Fixed slot so chevron, file/folder, and row actions share one vertical axis */
+const ICON_SLOT = 'flex h-6 w-6 shrink-0 items-center justify-center'
+const ROW_ACTION_BTN = `${ICON_SLOT} !p-0 rounded`
 
 /**
  * @param {{
@@ -77,7 +80,7 @@ export function TreeNode({ node, depth }) {
         {isFolder ? (
           <button
             type="button"
-            className={`flex h-5 w-5 shrink-0 items-center justify-center rounded ${
+            className={`${ICON_SLOT} rounded ${
               selected ? 'hover:bg-white/10' : 'hover:bg-explorer-border'
             }`}
             onClick={handleToggle}
@@ -85,17 +88,21 @@ export function TreeNode({ node, depth }) {
           >
             <Icon
               name={expanded ? 'chevronDown' : 'chevronRight'}
-              className="h-3 w-3"
+              className="h-4 w-4"
             />
           </button>
         ) : (
-          <span className="inline-block h-5 w-5 shrink-0" aria-hidden />
+          <span className={ICON_SLOT} aria-hidden />
         )}
 
-        <Icon
-          name={isFolder ? (expanded ? 'folderOpen' : 'folder') : 'file'}
-          className={`h-4 w-4 shrink-0 ${selected ? 'text-white' : 'text-explorer-muted'}`}
-        />
+        <span
+          className={`${ICON_SLOT} ${selected ? 'text-white' : 'text-explorer-muted'}`}
+        >
+          <Icon
+            name={isFolder ? (expanded ? 'folderOpen' : 'folder') : 'file'}
+            className="h-4 w-4"
+          />
+        </span>
 
         {editing ? (
           <div className="min-w-0 flex-1" onClick={(e) => e.stopPropagation()}>
@@ -120,43 +127,43 @@ export function TreeNode({ node, depth }) {
               <>
                 <Button
                   variant="ghost"
-                  className={`!p-1 ${selected ? 'text-white hover:bg-white/10' : ''}`}
+                  className={`${ROW_ACTION_BTN} ${selected ? 'text-white hover:bg-white/10' : ''}`}
                   aria-label="Create file in folder"
                   title="New file"
                   onClick={() => onCreateFile(node.id)}
                 >
-                  <Icon name="file" className="h-3.5 w-3.5" />
+                  <Icon name="file" className="h-4 w-4" />
                 </Button>
                 <Button
                   variant="ghost"
-                  className={`!p-1 ${selected ? 'text-white hover:bg-white/10' : ''}`}
+                  className={`${ROW_ACTION_BTN} ${selected ? 'text-white hover:bg-white/10' : ''}`}
                   aria-label="Create folder in folder"
                   title="New folder"
                   onClick={() => onCreateFolder(node.id)}
                 >
-                  <Icon name="folder" className="h-3.5 w-3.5" />
+                  <Icon name="folder" className="h-4 w-4" />
                 </Button>
               </>
             ) : null}
             <Button
               variant="ghost"
-              className={`!p-1 ${selected ? 'text-white hover:bg-white/10' : ''}`}
+              className={`${ROW_ACTION_BTN} ${selected ? 'text-white hover:bg-white/10' : ''}`}
               aria-label="Rename"
               title="Rename (F2)"
               onClick={() => setEditing(node.id)}
             >
-              <Icon name="edit" className="h-3.5 w-3.5" />
+              <Icon name="edit" className="h-4 w-4" />
             </Button>
             <Button
               variant="ghost"
-              className={`!p-1 ${selected ? 'text-white hover:bg-white/10' : ''}`}
+              className={`${ROW_ACTION_BTN} ${selected ? 'text-white hover:bg-white/10' : ''}`}
               aria-label="Delete"
               title="Delete"
               onClick={() =>
                 onDelete({ id: node.id, name: node.name, nodeType: node.type })
               }
             >
-              <Icon name="trash" className="h-3.5 w-3.5" />
+              <Icon name="trash" className="h-4 w-4" />
             </Button>
           </div>
         ) : null}
