@@ -1,10 +1,11 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import {
   ExplorerLayout,
   ExplorerToolbar,
   ExplorerTree,
   ExplorerEmptyState,
   ExplorerActionsProvider,
+  ExplorerKeyboardHints,
 } from '../components/explorer/index.js'
 import { CreateNodeModal, DeleteNodeModal } from '../components/modals/index.js'
 import { useExplorer } from '../hooks/useExplorer.js'
@@ -75,6 +76,12 @@ export function ExplorerPage() {
     return findNode(state.tree, state.ui.selectedId)?.node ?? null
   }, [state.tree, state.ui.selectedId])
 
+  useEffect(() => {
+    if (state.tree.length > 0 && !state.ui.selectedId) {
+      explorer.selectNode(state.tree[0].id)
+    }
+  }, [state.tree, state.ui.selectedId, explorer])
+
   const sidebar = (
     <ExplorerActionsProvider value={explorerActions}>
       <ExplorerToolbar
@@ -88,7 +95,10 @@ export function ExplorerPage() {
             onCreateFolder={handleCreateFolder}
           />
         ) : (
-          <ExplorerTree nodes={state.tree} />
+          <>
+            <ExplorerTree nodes={state.tree} />
+            <ExplorerKeyboardHints />
+          </>
         )}
       </nav>
     </ExplorerActionsProvider>

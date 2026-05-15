@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useExplorerSelection } from '../../hooks/useExplorerSelection.js'
 import { NODE_TYPES } from '../../constants/nodeTypes.js'
@@ -20,6 +21,7 @@ export function TreeNode({ node, depth }) {
   const { isSelected, isExpanded, isEditing, select, toggleExpanded, setEditing } =
     useExplorerSelection()
   const { onCreateFile, onCreateFolder, onDelete } = useExplorerActions()
+  const rowRef = useRef(/** @type {HTMLDivElement | null} */ (null))
 
   const isFolder = node.type === NODE_TYPES.FOLDER
   const expanded = isFolder && isExpanded(node.id)
@@ -27,7 +29,16 @@ export function TreeNode({ node, depth }) {
   const editing = isEditing(node.id)
   const children = isFolder ? (node.children ?? []) : []
 
-  const handleSelect = () => select(node.id)
+  useEffect(() => {
+    if (selected && !editing) {
+      rowRef.current?.focus({ preventScroll: true })
+    }
+  }, [selected, editing, node.id])
+
+  const handleSelect = () => {
+    select(node.id)
+    rowRef.current?.focus({ preventScroll: true })
+  }
 
   const handleToggle = (event) => {
     event.stopPropagation()
@@ -37,21 +48,25 @@ export function TreeNode({ node, depth }) {
   const handleRenameCommit = (name) => {
     explorer.renameNode(node.id, name)
     setEditing(null)
+    rowRef.current?.focus({ preventScroll: true })
   }
 
   const handleRenameCancel = () => {
     setEditing(null)
+    rowRef.current?.focus({ preventScroll: true })
   }
 
   return (
     <li role="none">
       <div
+        ref={rowRef}
         role="treeitem"
+        data-tree-node-id={node.id}
         aria-expanded={isFolder ? expanded : undefined}
         aria-selected={selected}
-        tabIndex={selected ? 0 : -1}
+        tabIndex={selected && !editing ? 0 : -1}
         style={{ paddingLeft: depth * INDENT_PX + 8 }}
-        className={`group flex cursor-pointer items-center gap-1 py-0.5 pr-2 text-sm transition-colors ${
+        className={`group flex cursor-pointer items-center gap-1 py-0.5 pr-2 text-sm transition-colors outline-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-explorer-accent ${
           selected ? 'bg-explorer-selected text-white' : 'text-explorer-text hover:bg-explorer-hover'
         }`}
         onClick={handleSelect}
@@ -127,7 +142,7 @@ export function TreeNode({ node, depth }) {
               variant="ghost"
               className={`!p-1 ${selected ? 'text-white hover:bg-white/10' : ''}`}
               aria-label="Rename"
-              title="Rename"
+              title="Rename (F2)"
               onClick={() => setEditing(node.id)}
             >
               <Icon name="edit" className="h-3.5 w-3.5" />
@@ -148,7 +163,16 @@ export function TreeNode({ node, depth }) {
       </div>
 
       {isFolder && expanded ? (
-        <ExplorerTree nodes={children} depth={depth + 1} />
+        children.length > 0 ? (
+          <ExplorerTree nodes={children} depth={depth + 1} />
+        ) : (
+          <p
+            className="py-1 text-xs italic text-explorer-muted"
+            style={{ paddingLeft: (depth + 1) * INDENT_PX + 36 }}
+          >
+            Empty folder
+          </p>
+        )
       ) : null}
     </li>
   )

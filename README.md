@@ -109,6 +109,18 @@ Components only call `explorer.*` and render `state.tree`. Complexity stays in `
 
 Captured in `src/constants/productDecisions.js`.
 
+## Keyboard shortcuts
+
+| Key | Action |
+|-----|--------|
+| ↑ / ↓ | Previous / next visible item |
+| ← | Collapse folder or jump to parent |
+| → | Expand folder or move to first child |
+| Home / End | First / last visible item |
+| Enter / Space | Toggle folder expansion |
+| F2 | Inline rename |
+| Delete / Backspace | Delete (with confirmation) |
+
 ## Implementation roadmap
 
 | Section | Status | Contents |
@@ -118,7 +130,7 @@ Captured in `src/constants/productDecisions.js`.
 | 3. Reusable UI | ✅ | Inputs, modals, polish common components |
 | 4. Recursive explorer | ✅ | `TreeNode`, `ExplorerTree`, row actions |
 | 5. Page composition | ✅ | Create/edit/delete wired end-to-end |
-| 6. UX polish | 🔲 | Inline rename, expand/collapse, keyboard a11y |
+| 6. UX polish | ✅ | Inline rename, expand/collapse, keyboard a11y |
 | 7. Optional enhancements | 📋 | See below |
 
 ## Optional enhancements (not in core scope)
