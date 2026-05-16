@@ -1,6 +1,6 @@
-# VS Code–Style File Explorer (Take-Home)
+# VS Code–Style File Explorer
 
-React + TailwindCSS file explorer with nested folders, CRUD operations, and a minimal VS Code–inspired layout. Built without third-party tree libraries.
+React + TailwindCSS file explorer with nested folders, CRUD operations, and a minimal VS Code–inspired layout. 
 
 ## Quick start
 
@@ -60,11 +60,6 @@ src/
 - One cohesive feature domain (the explorer) — Context avoids prop-drilling through recursive `TreeNode`s.
 - `useReducer` keeps transitions predictable and testable; action types live in `constants/explorerActions.js`.
 - No extra dependencies; easy to swap the store layer later if the app grows.
-
-**What we avoid**
-
-- Putting mutation logic inside components.
-- Storing derived state (e.g. duplicating the selected node object when `selectedId` is enough).
 
 ## Recursive rendering strategy
 
