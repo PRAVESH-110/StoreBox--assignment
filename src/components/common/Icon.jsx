@@ -21,7 +21,8 @@ const ICONS = {
     <path fill="currentColor" d="M8 6l4 4-4 4V6z" />
   ),
   chevronDown: (
-    <path fill="currentColor" d="M6 8l4-4 4 4H6z" />
+    /** Wide end at top, tip points down (∨) */
+    <path fill="currentColor" d="M7 9.5L12 16L17 9.5z" />
   ),
   plus: (
     <path fill="currentColor" d="M11 5v6H5v2h6v6h2v-6h6v-2h-6V5h-2z" />
